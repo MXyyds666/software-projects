@@ -95,7 +95,7 @@ uint8_t UserRxBufferFS[APP_RX_DATA_SIZE];
 uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-uint32_t g_last_usb_rx_tick = 0; // 声明外部变量
+volatile uint32_t g_last_usb_rx_tick = 0; // 锟斤拷锟斤拷锟解部锟斤拷锟斤拷
 
 extern uint16_t SEND_ID;
 extern uint16_t ID_TEMP;
@@ -273,7 +273,7 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 	}
 	else
 	{
-		g_last_usb_rx_tick = HAL_GetTick(); // 只要收到数据，就更新时间
+		g_last_usb_rx_tick = HAL_GetTick(); // 只要锟秸碉拷锟斤拷锟捷ｏ拷锟酵革拷锟斤拷时锟斤拷
 		USR_WRITE_RXFIFO(Buf, (uint16_t)*Len);
 	}
 	
