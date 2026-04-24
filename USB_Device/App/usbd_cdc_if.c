@@ -22,7 +22,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-#include "fifo.h"
+#include "protocol.h"
 
 /* USER CODE END INCLUDE */
 
@@ -63,6 +63,9 @@
   */
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
+#define CDC_FIXED_FRAME_SIZE  65U
+#define CDC_CTRL_FRAME_SIZE   5U
+#define CDC_FRAME_TIMEOUT_MS  5U
 /* USER CODE END PRIVATE_DEFINES */
 
 /**
@@ -96,6 +99,10 @@ uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
 volatile uint32_t g_last_usb_rx_tick = 0; // �����ⲿ����
+static uint8_t cdc_rx_buffer[CDC_FIXED_FRAME_SIZE];
+static uint16_t cdc_rx_len = 0U;
+static uint16_t cdc_rx_expect_len = 0U;
+static uint32_t cdc_rx_start_tick = 0U;
 
 extern uint16_t SEND_ID;
 extern uint16_t ID_TEMP;
@@ -266,18 +273,53 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-	if(*Len == 5 && Buf[0] == 0xA5 && Buf[1] == 0xA5){
-		ID_FLAG = 1;
-		ID_CMD = Buf[2];
-		ID_TEMP = (uint16_t)((Buf[3] << 8) | Buf[4]);
-	}
-	else
-	{
-		g_last_usb_rx_tick = HAL_GetTick(); // ֻҪ�յ����ݣ��͸���ʱ��
-		USR_WRITE_RXFIFO(Buf, (uint16_t)*Len);
-	}
-	
-	
+  uint32_t index;
+  uint32_t now_tick;
+  uint8_t byte;
+
+  if((*Len == CDC_CTRL_FRAME_SIZE) && (Buf[0] == 0xA5U) && (Buf[1] == 0xA5U)){
+    ID_FLAG = 1;
+    ID_CMD = Buf[2];
+    ID_TEMP = (uint16_t)((Buf[3] << 8) | Buf[4]);
+  }
+  else
+  {
+    now_tick = HAL_GetTick();
+    g_last_usb_rx_tick = now_tick;
+
+    if ((cdc_rx_len > 0U) && ((now_tick - cdc_rx_start_tick) > CDC_FRAME_TIMEOUT_MS)) {
+      cdc_rx_len = 0U;
+      cdc_rx_expect_len = 0U;
+    }
+
+    for (index = 0U; index < *Len; index++) {
+      byte = Buf[index];
+
+      if (cdc_rx_len == 0U) {
+        cdc_rx_buffer[0] = byte;
+        cdc_rx_len = 1U;
+        cdc_rx_expect_len = CDC_FIXED_FRAME_SIZE;
+        cdc_rx_start_tick = now_tick;
+        continue;
+      }
+
+      if (cdc_rx_len < CDC_FIXED_FRAME_SIZE) {
+        cdc_rx_buffer[cdc_rx_len] = byte;
+        cdc_rx_len++;
+      } else {
+        cdc_rx_len = 0U;
+        cdc_rx_expect_len = 0U;
+        continue;
+      }
+
+      if ((cdc_rx_expect_len > 0U) && (cdc_rx_len >= cdc_rx_expect_len)) {
+        Protocol_HandleUsbFrame(cdc_rx_buffer, CDC_FIXED_FRAME_SIZE);
+        cdc_rx_len = 0U;
+        cdc_rx_expect_len = 0U;
+      }
+    }
+  }
+
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   return (USBD_OK);
@@ -328,6 +370,7 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
   UNUSED(Buf);
   UNUSED(Len);
   UNUSED(epnum);
+  Protocol_OnUsbTransmitComplete();
   /* USER CODE END 13 */
   return result;
 }

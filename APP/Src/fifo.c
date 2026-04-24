@@ -25,6 +25,11 @@ void usr_fifo_init(usr_fifo_t *fifo, uint8_t *buf, uint16_t length)
   fifo->tail = 0;        // 初始化读指针（尾）
 }
 
+uint16_t usr_fifo_free(usr_fifo_t *fifo)
+{
+  return (uint16_t)(fifo->length - usr_fifo_used(fifo) - 1U);
+}
+
 /**
  * 从FIFO中读取一个字节
  * @param fifo: 指向FIFO结构体的指针
@@ -83,13 +88,18 @@ void USR_FIFO_INIT(void)
 uint8_t USR_WRITE_RXFIFO(uint8_t *buf, uint16_t length)
 {
 	uint32_t primask = __get_PRIMASK(); // 备份当前中断状态
+  uint8_t ok = true;
 	__disable_irq(); // 关中断
 	
-  for (uint16_t i = 0; i < length; i++)
-    usr_fifo_write_ch(&usr_rx_fifo, buf[i]);
+  for (uint16_t i = 0; i < length; i++) {
+    if (!usr_fifo_write_ch(&usr_rx_fifo, buf[i])) {
+      ok = false;
+      break;
+    }
+  }
 	
 	__set_PRIMASK(primask); // 恢复中断状态（比直接enable更安全，支持嵌套）
-  return true;
+  return ok;
 }
 
 // 获取接收FIFO中当前有多少字节可用
@@ -106,9 +116,19 @@ uint8_t USR_READ_RXFIFO(void)
 // 向发送FIFO批量写入数据（应用层准备发送数据时调用）
 uint8_t USR_WRITE_TXFIFO(uint8_t *buf, uint16_t length)
 {
-  for (uint16_t i = 0; i < length; i++)
-    usr_fifo_write_ch(&usr_tx_fifo, buf[i]);
-  return true;
+  uint32_t primask = __get_PRIMASK();
+  uint8_t ok = true;
+  __disable_irq();
+
+  for (uint16_t i = 0; i < length; i++) {
+    if (!usr_fifo_write_ch(&usr_tx_fifo, buf[i])) {
+      ok = false;
+      break;
+    }
+  }
+
+  __set_PRIMASK(primask);
+  return ok;
 }
 
 // 获取发送FIFO中当前有多少字节待发送
@@ -121,15 +141,24 @@ uint16_t USR_TXFIFO_AVAILABLE(void)
 uint8_t USR_READ_TXFIFO(void)
 {
   uint8_t ch = 0;
+  uint32_t primask = __get_PRIMASK();
+  __disable_irq();
   usr_fifo_read_ch(&usr_tx_fifo, &ch);
+  __set_PRIMASK(primask);
   return ch;
 }
 
 // 批量从发送FIFO中提取数据到目标缓冲区
 void USR_READ_TXFIFO_BUF(uint8_t *data, uint16_t len)
 {
-  for (int i = 0; i < len; i++)
-    usr_fifo_read_ch(&usr_tx_fifo, &data[i]);
+  uint32_t primask = __get_PRIMASK();
+  __disable_irq();
+  for (uint16_t i = 0; i < len; i++) {
+    if (!usr_fifo_read_ch(&usr_tx_fifo, &data[i])) {
+      break;
+    }
+  }
+  __set_PRIMASK(primask);
 }
 
 /**

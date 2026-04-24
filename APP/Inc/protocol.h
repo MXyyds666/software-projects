@@ -7,6 +7,8 @@
 
 #define USE_CRC_TEST	0
 
+void Protocol_HandleUsbFrame(const uint8_t *data, uint16_t len);
+void Protocol_OnUsbTransmitComplete(void);
 void USB_Protocol_Parse_And_Bridge(void);
 void CAN_Bridge_Sequence_Process(void);
 void USB_Protocol_Parse_Loopback(void);
