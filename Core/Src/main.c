@@ -68,85 +68,168 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
-#define CAN_ID_FLASH_ADDR  0x0801F800  // 最后一页的起始地址
+#define ID_CMD_READ        0x00U
+#define ID_CMD_WRITE       0x01U
+#define ID_CMD_WRITE_FAIL  0x81U
+#define CAN_ID_DEFAULT     0x0781U
+#define CAN_ID_MIN         0x0001U
+#define CAN_ID_MAX         0x07FFU
+#define CAN_ID_FLASH_PAGE_SIZE  0x800U
+#define CAN_ID_FLASH_MAGIC      0xA55AU
 
-// 读取 CAN ID 的函数
-uint32_t Read_CAN_ID(void) {
-    return *(volatile uint32_t*)CAN_ID_FLASH_ADDR;
+static uint32_t Get_CAN_ID_StorageAddress(void)
+{
+  uint32_t flash_size_kb;
+
+  flash_size_kb = (uint32_t)(*(__IO uint16_t *)FLASHSIZE_BASE);
+  return FLASH_BASE + (flash_size_kb * 1024U) - CAN_ID_FLASH_PAGE_SIZE;
 }
 
-#define CAN_ID_FLASH_ADDR  0x0801F800  // 最后一页的起始地址
+static uint64_t Build_CAN_ID_StorageWord(uint16_t can_id)
+{
+  uint64_t value;
 
-// 读取 CAN ID 的函数
+  value = (uint64_t)CAN_ID_FLASH_MAGIC;
+  value |= ((uint64_t)can_id << 16);
+  value |= ((uint64_t)((uint16_t)(can_id ^ 0xFFFFU)) << 32);
+  value |= ((uint64_t)0xFFFFU << 48);
+  return value;
+}
+
+uint32_t Read_CAN_ID(void);
+
 uint32_t Read_ID(void) {
-    return *(volatile uint32_t*)CAN_ID_FLASH_ADDR;
+  return Read_CAN_ID();
 }
 
-void Save_CAN_ID(uint32_t can_id) {
+uint32_t Read_CAN_ID(void) {
+  uint32_t storage_addr;
+  uint64_t raw;
+  uint16_t magic;
+  uint16_t value;
+  uint16_t inverse;
+
+  storage_addr = Get_CAN_ID_StorageAddress();
+  raw = *(uint64_t *)storage_addr;
+
+  magic = (uint16_t)(raw & 0xFFFFU);
+  value = (uint16_t)((raw >> 16) & 0xFFFFU);
+  inverse = (uint16_t)((raw >> 32) & 0xFFFFU);
+
+  if ((magic != CAN_ID_FLASH_MAGIC) || ((uint16_t)(value ^ inverse) != 0xFFFFU)) {
+    return 0xFFFFFFFFU;
+  }
+
+  return value;
+}
+
+static uint16_t Normalize_CAN_ID(uint32_t can_id)
+{
+  if ((can_id < CAN_ID_MIN) || (can_id > CAN_ID_MAX)) {
+    return CAN_ID_DEFAULT;
+  }
+
+  return (uint16_t)can_id;
+}
+
+HAL_StatusTypeDef Save_CAN_ID(uint32_t can_id) {
     FLASH_EraseInitTypeDef EraseInitStruct;
     uint32_t PageError = 0;
+    HAL_StatusTypeDef status = HAL_OK;
+    uint32_t storage_addr;
+    uint32_t page_index;
+    uint64_t data_to_write;
+
+    storage_addr = Get_CAN_ID_StorageAddress();
+    page_index = (storage_addr - FLASH_BASE) / CAN_ID_FLASH_PAGE_SIZE;
 
     // 1. 解锁 Flash
-    HAL_FLASH_Unlock();
+    if (HAL_FLASH_Unlock() != HAL_OK) {
+        return HAL_ERROR;
+    }
 
     // 2. 擦除最后一页 (第63页)
     // 注意：擦除是以“页”为单位的，这一页的其他数据也会被清空
     EraseInitStruct.TypeErase   = FLASH_TYPEERASE_PAGES;
     EraseInitStruct.Banks       = FLASH_BANK_1;
-    EraseInitStruct.Page        = 63;      // 最后一页的索引
+    EraseInitStruct.Page        = page_index;
     EraseInitStruct.NbPages     = 1;       // 只擦除1页
 
     if (HAL_FLASHEx_Erase(&EraseInitStruct, &PageError) != HAL_OK) {
-        // 擦除失败处理...
-        HAL_FLASH_Lock();
-        return;
+        status = HAL_ERROR;
     }
 
     // 3. 写入数据 (G4 必须写入 64 位)
-    // 我们把 32 位的 CAN ID 拼成一个 64 位数据，高 32 位补 0 或放其他标志
-    uint64_t data_to_write = (uint64_t)can_id; 
+    data_to_write = Build_CAN_ID_StorageWord((uint16_t)can_id);
     
-    if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, CAN_ID_FLASH_ADDR, data_to_write) != HAL_OK) {
-        // 写入失败处理...
+    if ((status == HAL_OK) && (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, storage_addr, data_to_write) != HAL_OK)) {
+        status = HAL_ERROR;
     }
 
     // 4. 上锁
     HAL_FLASH_Lock();
+    return status;
 }
 
 void ID_Check(void)
 {
-	if(!ID_FLAG)
-		return;
-	uint8_t data[5] = {0};
-	
-	data[0] =0xA5;
-	data[1] =0xA5;
-	
-	switch(ID_CMD)
-	{
-		case 0:
-			SEND_ID = Read_CAN_ID();
-			break;
-		case 1:
-			Save_CAN_ID(ID_TEMP);
-			break;
-		default:
-			break;
-	}
-	
-	data[2] = ID_CMD;
-	
-	
-	SEND_ID = Read_CAN_ID();
-	
-	data[3] =(SEND_ID >> 8) & 0xFF;
-	data[4] =SEND_ID & 0xFF;
-	
-	CDC_Transmit_FS(data, 5);
-	ID_FLAG = 0;
-	if(ID_CMD == 1 || ID_CMD == 3)
-		NVIC_SystemReset();
+  uint8_t data[5] = {0};
+  uint16_t current_id;
+  uint16_t original_id;
+  uint8_t response_cmd;
+
+  if (!ID_FLAG)
+    return;
+
+  original_id = Normalize_CAN_ID(Read_CAN_ID());
+  current_id = original_id;
+  response_cmd = ID_CMD;
+
+  data[0] = 0xA5;
+  data[1] = 0xA5;
+
+  switch (ID_CMD)
+  {
+    case ID_CMD_READ:
+      response_cmd = ID_CMD_READ;
+      break;
+
+    case ID_CMD_WRITE:
+      if ((ID_TEMP < CAN_ID_MIN) || (ID_TEMP > CAN_ID_MAX)) {
+        response_cmd = ID_CMD_WRITE_FAIL;
+        current_id = original_id;
+        break;
+      }
+
+      if (Save_CAN_ID(ID_TEMP) != HAL_OK) {
+        response_cmd = ID_CMD_WRITE_FAIL;
+        current_id = original_id;
+        break;
+      }
+
+      current_id = Normalize_CAN_ID(Read_CAN_ID());
+      if (current_id != ID_TEMP) {
+        response_cmd = ID_CMD_WRITE_FAIL;
+        current_id = original_id;
+        break;
+      }
+
+      response_cmd = ID_CMD_WRITE;
+      break;
+
+    default:
+      response_cmd = ID_CMD_WRITE_FAIL;
+      current_id = original_id;
+      break;
+  }
+
+  SEND_ID = current_id;
+  data[2] = response_cmd;
+  data[3] = (uint8_t)((current_id >> 8) & 0xFF);
+  data[4] = (uint8_t)(current_id & 0xFF);
+
+  CDC_Transmit_FS(data, 5);
+  ID_FLAG = 0;
 }
 
 /* USER CODE END 0 */
