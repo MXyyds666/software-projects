@@ -56,6 +56,8 @@ uint8_t ID_FLAG = 0;
 uint16_t ID_TEMP = 0;
 uint16_t SEND_ID = 0xF81;
 uint8_t ID_CMD = 0;
+static uint8_t g_id_reboot_pending = 0;
+static uint32_t g_id_reboot_tick = 0;
 
 /* USER CODE END PV */
 
@@ -71,7 +73,9 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN EXPORTED_VARIABLES */
 #define ID_CMD_READ        0x00U
 #define ID_CMD_WRITE       0x01U
+#define ID_CMD_REBOOT      0x03U
 #define ID_CMD_WRITE_FAIL  0x81U
+#define ID_REBOOT_DELAY_MS 10U
 #define CAN_ID_DEFAULT     0x0781U
 #define CAN_ID_MIN         0x0001U
 #define CAN_ID_MAX         0x07FFU
@@ -178,6 +182,7 @@ void ID_Check(void)
   uint16_t current_id;
   uint16_t original_id;
   uint8_t response_cmd;
+  uint8_t reboot_requested;
 
   if (!ID_FLAG)
     return;
@@ -185,6 +190,7 @@ void ID_Check(void)
   original_id = Normalize_CAN_ID(Read_CAN_ID());
   current_id = original_id;
   response_cmd = ID_CMD;
+  reboot_requested = 0U;
 
   data[0] = 0xA5;
   data[1] = 0xA5;
@@ -218,6 +224,11 @@ void ID_Check(void)
       response_cmd = ID_CMD_WRITE;
       break;
 
+    case ID_CMD_REBOOT:
+      response_cmd = ID_CMD_REBOOT;
+      reboot_requested = 1U;
+      break;
+
     default:
       response_cmd = ID_CMD_WRITE_FAIL;
       current_id = original_id;
@@ -231,6 +242,11 @@ void ID_Check(void)
 
   CDC_Transmit_FS(data, 5);
   ID_FLAG = 0;
+
+  if (reboot_requested) {
+    g_id_reboot_pending = 1U;
+    g_id_reboot_tick = HAL_GetTick();
+  }
 }
 
 /* USER CODE END 0 */
@@ -303,6 +319,10 @@ int main(void)
 		
     /* 3. USB 驱动桥：将需要发给 PC 的数据真正通过硬件发出去 */
     USB_CDC_TX_Bridge(); 
+
+		if (g_id_reboot_pending && ((HAL_GetTick() - g_id_reboot_tick) >= ID_REBOOT_DELAY_MS)) {
+			NVIC_SystemReset();
+		}
 		
     /* USER CODE END WHILE */
 
