@@ -122,6 +122,8 @@ extern uint8_t ID_CMD;
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
+/* USER CODE BEGIN EXPORTED_VARIABLES */
+
 /* USER CODE END EXPORTED_VARIABLES */
 
 /**

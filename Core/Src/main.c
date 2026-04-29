@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fdcan.h"
+#include "tim.h"
 #include "usb_device.h"
 #include "gpio.h"
 
@@ -265,10 +266,13 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_Device_Init();
   MX_FDCAN1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	FDCAN_ConfigFilters();
 	
 	USR_FIFO_INIT();
+	
+	HAL_TIM_Base_Start_IT(&htim2);
 	
 	SEND_ID = Read_CAN_ID();
 	if (SEND_ID == 0xFFFF) {
@@ -355,6 +359,18 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	static uint16_t cnt = 0;
+	if (htim->Instance == TIM2)
+	{
+		if(++cnt == 20)
+		{
+			cnt = 0;
+			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
+		}
+	}
+}
 
 /* USER CODE END 4 */
 
