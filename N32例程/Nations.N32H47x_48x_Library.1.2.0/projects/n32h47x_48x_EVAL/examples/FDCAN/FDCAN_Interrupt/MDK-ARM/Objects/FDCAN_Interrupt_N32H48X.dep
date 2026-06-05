@@ -1,0 +1,132 @@
+Dependencies for Project 'FDCAN_Interrupt', Target 'N32H48X': (DO NOT MODIFY !)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
+F (..\..\..\..\..\..\firmware\CMSIS\device\startup\startup_n32h47x_48x.s)(0x6847B694)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-Ifirmware\CMSIS\device--pd "__UVISION_VERSION SETA 536"--list .\listings\startup_n32h47x_48x.lst --xref -o .\objects\startup_n32h47x_48x.o --depend .\objects\startup_n32h47x_48x.d)
+F (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.c)(0x68CB7A9C)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\system_n32h47x_48x.o --omf_browse .\objects\system_n32h47x_48x.crf --depend .\objects\system_n32h47x_48x.d)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+F (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\src\n32h47x_48x_gpio.c)(0x6847B698)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\n32h47x_48x_gpio.o --omf_browse .\objects\n32h47x_48x_gpio.crf --depend .\objects\n32h47x_48x_gpio.d)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_gpio.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_rcc.h)(0x68E78C4F)
+F (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\src\n32h47x_48x_rcc.c)(0x68E78C4F)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\n32h47x_48x_rcc.o --omf_browse .\objects\n32h47x_48x_rcc.crf --depend .\objects\n32h47x_48x_rcc.d)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_rcc.h)(0x68E78C4F)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (D:\KEIL5.36\ARM\ARMCC\include\math.h)(0x60252378)
+F (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\src\n32h47x_48x_usart.c)(0x6847B698)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\n32h47x_48x_usart.o --omf_browse .\objects\n32h47x_48x_usart.crf --depend .\objects\n32h47x_48x_usart.d)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_usart.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_rcc.h)(0x68E78C4F)
+F (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\src\n32h47x_48x_fdcan.c)(0x6847B698)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\n32h47x_48x_fdcan.o --omf_browse .\objects\n32h47x_48x_fdcan.crf --depend .\objects\n32h47x_48x_fdcan.d)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_fdcan.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_rcc.h)(0x68E78C4F)
+F (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\src\misc.c)(0x6847B698)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\misc.o --omf_browse .\objects\misc.crf --depend .\objects\misc.d)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\misc.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+F (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\src\n32h47x_48x_exti.c)(0x6847B698)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\n32h47x_48x_exti.o --omf_browse .\objects\n32h47x_48x_exti.crf --depend .\objects\n32h47x_48x_exti.d)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_exti.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+F (..\src\main.c)(0x68C7F5D7)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (..\inc\main.h)(0x68C7F5D7)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_rcc.h)(0x68E78C4F)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_gpio.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_fdcan.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_exti.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\misc.h)(0x6847B696)
+I (..\..\..\..\bsp\inc\log.h)(0x6847B6AC)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdio.h)(0x60252374)
+F (..\src\n32h47x_48x_it.c)(0x68C7F5D7)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\n32h47x_48x_it.o --omf_browse .\objects\n32h47x_48x_it.crf --depend .\objects\n32h47x_48x_it.d)
+I (..\inc\main.h)(0x68C7F5D7)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\inc\n32h47x_48x_it.h)(0x68C7F5D7)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_exti.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_gpio.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_fdcan.h)(0x6847B696)
+F (..\..\..\..\bsp\src\log.c)(0x68C16F65)(-c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\..\..\..\..\firmware\CMSIS\core -I ..\..\..\..\..\..\firmware\CMSIS\device -I ..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc -I ..\..\..\..\bsp\inc-Ifirmware\CMSIS\device-D__UVISION_VERSION="536" -DN32H488 -DUSE_STDPERIPH_DRIVER-o .\objects\log.o --omf_browse .\objects\log.crf --depend .\objects\log.d)
+I (..\..\..\..\bsp\inc\log.h)(0x6847B6AC)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdio.h)(0x60252374)
+I (..\..\..\..\..\..\firmware\CMSIS\device\n32h47x_48x.h)(0x68E791E0)
+I (..\..\..\..\..\..\firmware\CMSIS\core\core_cm4.h)(0x6847B692)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_version.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_compiler.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\cmsis_armcc.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\core\mpu_armv7.h)(0x6847B692)
+I (..\..\..\..\..\..\firmware\CMSIS\device\system_n32h47x_48x.h)(0x6847B694)
+I (D:\KEIL5.36\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_gpio.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_usart.h)(0x6847B696)
+I (..\..\..\..\..\..\firmware\n32h47x_48x_std_periph_driver\inc\n32h47x_48x_rcc.h)(0x68E78C4F)
+F (..\readme.txt)(0x68C7FDF5)()

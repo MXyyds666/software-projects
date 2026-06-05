@@ -1,0 +1,12 @@
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Software\Keil\ARM\ARMCC\Bin'
+Build target 'Can'
+compiling motor.c...
+..\Modules\motor.c(41): warning:  #177-D: function "Motor_Write_Int32"  was declared but never referenced
+  static void Motor_Write_Int32(uint16_t idx, uint8_t sub, int32_t val) {
+..\Modules\motor.c(143): warning:  #177-D: function "Motor_Read_Float"  was declared but never referenced
+  static float Motor_Read_Float(uint16_t idx, uint8_t sub) {
+..\Modules\motor.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=8242 RO-data=562 RW-data=56 ZI-data=1632  
+".\Objects\can.axf" - 0 Error(s), 2 Warning(s).
+Build Time Elapsed:  00:00:01

@@ -1,0 +1,16 @@
+--cpu=Cortex-M4.fp.sp
+".\objects\startup_n32h47x_48x.o"
+".\objects\system_n32h47x_48x.o"
+".\objects\n32h47x_48x_gpio.o"
+".\objects\n32h47x_48x_rcc.o"
+".\objects\n32h47x_48x_usart.o"
+".\objects\n32h47x_48x_fdcan.o"
+".\objects\misc.o"
+".\objects\n32h47x_48x_exti.o"
+".\objects\main.o"
+".\objects\n32h47x_48x_it.o"
+".\objects\log.o"
+--library_type=microlib --strict --scatter ".\Objects\FDCAN_Interrupt.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --callgraph --symbols
+--info sizes --info totals --info veneers
+--list ".\Listings\FDCAN_Interrupt.map" -o .\Objects\FDCAN_Interrupt.axf
