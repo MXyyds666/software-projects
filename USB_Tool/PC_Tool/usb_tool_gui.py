@@ -900,11 +900,11 @@ class USB_Tool_Tester:
         dev = self._bl_get_dev_addr()
         can_id = 0x780 + dev
         payload = bytes([0x23, 0x00, 0x45]) + b'\x00' * 61 + bytes([0xCA])
+        header = bytes([(can_id >> 24) & 0xFF, (can_id >> 16) & 0xFF,
+                        (can_id >> 8) & 0xFF, can_id & 0xFF])
         for offset in range(0, len(payload), 8):
-            chunk = payload[offset:offset + 8].ljust(8, b'\x00')
-            frame = bytes([(can_id >> 24) & 0xFF, (can_id >> 16) & 0xFF,
-                           (can_id >> 8) & 0xFF, can_id & 0xFF]) + chunk
-            if not self._send_raw(frame):
+            chunk = payload[offset:offset + 8]  # 末尾不足8字节不补零
+            if not self._send_raw(header + chunk):
                 return False
         return True
 
